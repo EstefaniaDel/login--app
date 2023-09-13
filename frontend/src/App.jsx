@@ -10,7 +10,7 @@ function App() {
     <div className="vh-100 gradient-custom">
       <div className="container">
         <h1 className="page-header text-center">
-          {/* {" "} */}
+          {" "}
           React and Python Login Register
         </h1>
 
