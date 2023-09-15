@@ -1,23 +1,27 @@
-version: '3'
+version: '3.9'
 
 services:
   web:
+    container_name: web
+    command: python manage.py run -h 0.0.0.0
     build: .
-    command: python manage.py run 
     ports:
       - "5000:5000"
     env_file:
       - ./.env.dev
     depends_on:
       - db
-
-  db:
-    image: postgres:latest
     environment:
-      - POSTGRES_ROOT_PASSWORD=secret 
+      FLASK_APP: manage.py
+  
+  db:
+    container_name: db
+    image: postgres:13.1-alpine
+    environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=postgres
     ports:
       - "5432:5432"
+
 
