@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, make_response, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 
 app = Flask(__name__)
@@ -8,6 +9,7 @@ app = Flask(__name__)
 app.config.from_object('project.config.Config')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+CORS(app, supports_credentials=True,  origins="http://localhost:3000")
 
 
 class User (db.Model):
@@ -32,9 +34,9 @@ def login_user():
     user = User.query.filter_by(email=email).first()
 
     if user is None:
-        return jsonify({'message': 'Invalid email or password'}), 404
+        return jsonify({'message': 'Invalid email or password'}), 401
     if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({'message': 'Invalid email or password'}), 400
+        return jsonify({'message': 'Invalid email or password'}), 401
     return jsonify({'message': 'Login successful'}), 200
 
 
