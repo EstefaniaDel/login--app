@@ -1,19 +1,37 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
-  const [loginSucess, setLoginSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   const logInUser = () => {
     setShowEmailError(email.length === 0);
     setShowPasswordError(password.length === 0);
+
     if (email.length === 0 || password.length === 0) {
       return;
     }
-    setLoginSuccess(true);
+    axios
+      .post("http://localhost:5000/login", {
+        email: email,
+        password: password,
+      })
+      .then(function (response) {
+        console.log(response);
+        navigate("/");
+      })
+      .catch(function (error) {
+        console.log(error, "error");
+        if (error.response.status === 401) {
+          alert("Invalid credentials");
+        }
+      });
   };
   return (
     <div>
@@ -63,7 +81,7 @@ const LoginPage = () => {
                 </label>
                 {showPasswordError && (
                   <div className="invalid-feebdback" style={{ color: "red" }}>
-                    Plese enter your password.
+                    Please enter your password.
                   </div>
                 )}
               </div>
@@ -101,11 +119,6 @@ const LoginPage = () => {
                 </p>
               </div>
             </form>
-            {loginSucess && (
-                <div className="alert alert-success" role="alert">
-                    You have successfully logged in.
-                </div>
-                )}
           </div>
         </div>
       </div>
