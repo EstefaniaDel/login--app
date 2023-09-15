@@ -4,6 +4,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -11,12 +12,13 @@ function App() {
       <div className="container">
         <h1 className="page-header text-center">
           {" "}
-          React and Python Login Register
+          Login and Registration App
         </h1>
 
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
       </div>
