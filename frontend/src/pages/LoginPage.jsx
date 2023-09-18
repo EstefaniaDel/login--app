@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
+import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
+  const { user, setUser } = useContext(AuthContext);
+  console.log(user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showEmailError, setShowEmailError] = useState(false);
@@ -18,26 +22,36 @@ const LoginPage = () => {
       return;
     }
     axios
-      .post("http://localhost:5000/login", {
-        email: email,
-        password: password,
-      })
+      .post(
+        "http://localhost:5000/login",
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: true }
+      )
       .then(function (response) {
-        console.log(response);
-        navigate("/");
+        setUser(response.data);
+        toast.success("Login successful");
+        navigate("/profile");
       })
       .catch(function (error) {
         console.log(error, "error");
         if (error.response.status === 401) {
-          alert("Invalid credentials");
+          toast.error("Invalid credentials");
         }
       });
   };
   return (
     <div>
-      <div>
-        <div className="container h-100 d-flex justify-content-center align-items-center">
-          <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <div className="container h-100 d-flex justify-content-center align-items-center">
+        <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <div className="bg-blue-transparent  rounded-pill px-3 py-1 d-flex align-items-center justify-content-center">
+            <a href="/" className="link-danger text-white">
+              Back to Home
+            </a>
+          </div>
+          <div className="m-5">
             <form>
               <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                 <p className="lead fw-normal mb-0 me-3">
@@ -106,11 +120,13 @@ const LoginPage = () => {
               <div className="text-center text-lg-start mt-4 pt-2">
                 <button
                   type="button"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-success btn-lg"
                   onClick={logInUser}
+                  navigate={navigate}
                 >
                   Login
                 </button>
+
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account?{" "}
                   <a href="/register" className="link-danger">
@@ -118,7 +134,7 @@ const LoginPage = () => {
                   </a>
                 </p>
               </div>
-            </form>
+            </form>{" "}
           </div>
         </div>
       </div>
