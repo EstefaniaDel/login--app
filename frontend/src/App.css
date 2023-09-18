@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+.bg-blue-transparent {
+  background-color: rgba(0.9, 0, 255, 0.5); /* Aquí puedes ajustar el valor de alfa (0.5) para controlar la transparencia */
+}
+
+.navbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px; /* Altura de la franja gris translúcida */
+  background-color: rgba(128, 128, 128, 0.5); /* Color de fondo gris translúcido */
+  z-index: -1; /* Colocar la franja detrás de los elementos de la barra de navegación */
+}
+
+/* styles.css */
+.navbar {
+  background-color: rgba(128, 128, 128, 0.5); /* Color de fondo gris translúcido */
+  display: flex;
+  justify-content: space-between; /* Colocar el icono en la esquina izquierda */
+  padding: 10px; /* Espaciado interior para el icono */
+  align-items: center; /* Centrar verticalmente el icono */
+}
+
+.menu-icon {
+  color: white; /* Color del icono */
+  font-size: 24px; /* Tamaño del icono */
+  cursor: pointer; /* Cambiar el cursor al pasar el ratón sobre el icono */
+}
