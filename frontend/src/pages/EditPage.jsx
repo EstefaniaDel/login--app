@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../App";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
   const [newUsername, setNewUsername] = useState("");
   const [newEmail, setNewEmail] = useState("");
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user.id) {
@@ -71,6 +74,9 @@ const EditProfile = () => {
       axios
         .delete(`http://localhost:5000/users/${user.id}`)
         .then((response) => {
+          toast.success("User deleted successfully");
+          setUser({});
+          navigate("/");
           return;
         });
     }
